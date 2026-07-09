@@ -1,7 +1,7 @@
 package app
 
 import (
-	"golang-rest-api/models"
+	"golang-rest-api/models/domain"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -16,5 +16,5 @@ func ConnectDatabase() {
 		panic("Failed to connect database")
 	}
 
-	database.AutoMigrate(&models.Post{})
+	database.AutoMigrate(&domain.Post{})
 }
