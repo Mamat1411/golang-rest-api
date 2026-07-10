@@ -9,12 +9,14 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDatabase() {
-	database, err := gorm.Open(mysql.Open("root:@tcp(127.0.0.1:3306)/golang_rest_api"), &gorm.Config{})
+func ConnectDatabase(dataSourceName string) {
+	database, err := gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 
 	if err != nil {
-		panic("Failed to connect database")
+		panic(err)
 	}
 
 	database.AutoMigrate(&domain.Post{})
+
+	DB = database
 }

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"golang-rest-api/app"
 	"log"
 	"net/http"
 	"os"
@@ -14,6 +16,16 @@ func main() {
 	if err != nil {
 		log.Fatal("Error Loading .env File")
 	}
+
+	dbUser := os.Getenv("DB_USER")
+	dbPass := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+
+	app.ConnectDatabase(dataSourceName)
 
 	gin.SetMode(os.Getenv("GIN_MODE"))
 	router := gin.Default()
