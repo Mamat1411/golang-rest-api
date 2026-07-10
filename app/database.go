@@ -11,7 +11,7 @@ import (
 
 var DB *gorm.DB
 
-func ConnectDatabase(dataSourceName string) {
+func ConnectDatabase(dataSourceName string) *gorm.DB {
 	database, err := gorm.Open(mysql.Open(dataSourceName), &gorm.Config{})
 
 	if err != nil {
@@ -35,5 +35,5 @@ func ConnectDatabase(dataSourceName string) {
 		seeding.Seed(database)
 	}
 
-	DB = database
+	return database
 }

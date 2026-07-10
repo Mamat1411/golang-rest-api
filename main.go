@@ -26,9 +26,9 @@ func main() {
 	dbPort := os.Getenv("DB_PORT")
 	dbName := os.Getenv("DB_NAME")
 
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUser, dbPass, dbHost, dbPort, dbName)
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", dbUser, dbPass, dbHost, dbPort, dbName)
 
-	app.ConnectDatabase(dataSourceName)
+	db := app.ConnectDatabase(dataSourceName)
 
 	gin.SetMode(os.Getenv("GIN_MODE"))
 	router := gin.Default()
@@ -40,7 +40,7 @@ func main() {
 		})
 	})
 
-	postRepository := repositories.NewPostRepository(app.DB)
+	postRepository := repositories.NewPostRepository(db)
 	postService := services.NewPostService(postRepository)
 	postController := controllers.NewPostController(postService)
 
