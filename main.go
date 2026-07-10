@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"golang-rest-api/app"
+	"golang-rest-api/controllers"
+	"golang-rest-api/repositories"
+	"golang-rest-api/services"
 	"log"
 	"net/http"
 	"os"
@@ -36,6 +39,12 @@ func main() {
 			"message": "App is Healthy",
 		})
 	})
+
+	postRepository := repositories.NewPostRepository(app.DB)
+	postService := services.NewPostService(postRepository)
+	postController := controllers.NewPostController(postService)
+
+	router.GET("/api/posts", postController.GetPosts)
 
 	port := os.Getenv("PORT")
 	if port == "" {
